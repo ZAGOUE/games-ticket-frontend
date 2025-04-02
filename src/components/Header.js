@@ -4,7 +4,7 @@ import { UserContext } from "../context/UserContext";
 import { useCart } from "../context/CartContext";
 
 const Header = () => {
-    const { userEmail, logout } = useContext(UserContext);
+    const { user, logout } = useContext(UserContext);
     const { cart } = useCart();
     const navigate = useNavigate();
 
@@ -30,9 +30,9 @@ const Header = () => {
                 <Link to="/booking">Réservation</Link>
                 <Link to="/scan-ticket">Scanner un billet</Link>
 
-                {userEmail ? (
+                {user?.email ? (
                     <>
-                        <span style={{ marginLeft: "1rem" }}>👋 Bienvenue, {userEmail}</span>
+                        <span style={{ marginLeft: "1rem" }}>👋 Bienvenue, {user.email}</span>
                         <button onClick={handleLogout} style={{ marginLeft: "1rem" }}>Déconnexion</button>
                         <button onClick={handleNewRegistration} style={{ marginLeft: "1rem" }}>Changer d'utilisateur</button>
                     </>

@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
-import { AuthContext } from "../context/AuthContext"; // adapte selon ton projet
+import { UserContext } from "../context/UserContext";
 import { Navigate } from "react-router-dom";
 import TicketScanner from "../components/TicketScanner";
 
 const ScanTicket = () => {
-    const { user } = useContext(AuthContext);
+    const { user } = useContext(UserContext);
 
     // 🔐 Protection : uniquement ROLE_ADMIN
     if (!user || !user.roles.includes("ROLE_ADMIN")) {

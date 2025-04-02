@@ -4,15 +4,25 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 import "../App.css";
 
+
+
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const navigate = useNavigate();
     const location = useLocation();
-    const { login } = useContext(UserContext);
+    const { login, userEmail } = useContext(UserContext);
     const searchParams = new URLSearchParams(location.search);
     const redirectPath = searchParams.get("redirect") || "/dashboard";
+    const autoValidate = searchParams.get("autoValidate") === "true";
+
+    // Redirection immédiate si déjà connecté
+    useEffect(() => {
+        if (userEmail && localStorage.getItem("token")) {
+            navigate(redirectPath);
+        }
+    }, [userEmail, redirectPath, navigate]);
 
     // Réinitialiser les champs si on vient de se déconnecter
     useEffect(() => {
@@ -25,7 +35,11 @@ const Login = () => {
         e.preventDefault();
         setError("");
 
+
+
         try {
+
+
             const response = await axios.post("http://localhost:8000/api/login", {
                 email,
                 password
@@ -33,9 +47,15 @@ const Login = () => {
                 headers: { "Content-Type": "application/json" }
             });
 
-            localStorage.setItem("token", response.data.token);
-            login(email);
+            const { token, roles } = response.data;
+
+            localStorage.setItem("token", token);
+            login(email, roles);
+
             alert("Connexion réussie !");
+            if (autoValidate) {
+                sessionStorage.setItem("autoValidate", "true");
+            }
             navigate(redirectPath);
         } catch (err) {
             setError("Email ou mot de passe incorrect !");
