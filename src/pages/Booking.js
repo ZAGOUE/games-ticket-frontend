@@ -1,83 +1,155 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState, useContext } from "react";
+import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
+import { UserContext } from "../context/UserContext";
+
+
+
 
 const Booking = () => {
     const navigate = useNavigate();
+
+    const [orders, setOrders] = useState([]);
+    const [loading, setLoading] = useState(true);
+
     const location = useLocation();
-    const searchParams = new URLSearchParams(location.search);
-    const defaultOffer = searchParams.get("offer") || "Solo";
+    const fromCart = location.state?.fromCart;
+    const { user } = useContext(UserContext);
+    useEffect(() => {
+
+      //  if (fromCart) {
+      //      alert("Votre commande a bien été enregistrée !");
+      //  }
+    }, [fromCart]);
 
     useEffect(() => {
         const token = localStorage.getItem("token");
-        if (!token) {
-            alert("Vous devez être connecté pour réserver.");
-            navigate("/login");
+
+
+        if (!token || !user) {
+            alert("Vous devez être connecté pour voir vos réservations.");
+            navigate("/login?redirect=/booking");
+            return;
         }
-    }, [navigate]);
 
-    const [formData, setFormData] = useState({
-        name: "",
-        email: "",
-        offer: defaultOffer,
-        quantity: 1,
-    });
+        const url = user.roles.includes("ROLE_ADMIN")
+            ? "http://localhost:8000/api/orders/all"
+            : "http://localhost:8000/api/orders";
 
-    const offers = ["Solo", "Duo", "Familial"];
+        axios.get(url, {
+            headers: { Authorization: `Bearer ${token}` },
+        })
+            .then(response => {
+                setOrders(response.data);
+                setLoading(false);
+            })
+            .catch(error => {
+                console.error("Erreur de récupération des commandes :", error);
+                setLoading(false);
+            });
+    }, [navigate, user]);
 
-    const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
+    const handlePayment = async (orderId) => {
+        const token = localStorage.getItem("token");
+
+        try {
+            const response = await axios.post(
+                `http://localhost:8000/api/orders/${orderId}/pay`,
+                {},
+                {
+                    headers: { Authorization: `Bearer ${token}` },
+                }
+            );
+
+            alert("Paiement simulé avec succès !");
+
+            const { validated_at } = response.data;
+            // Recharge la liste
+            setOrders((prev) =>
+                prev.map((order) =>
+                    order.id === orderId
+                        ? { ...order, status: "PAID",
+                        validated_at,
+                        }
+                        : order
+                )
+            );
+        } catch (error) {
+            console.error("Erreur de paiement :", error);
+            alert("Erreur lors du paiement.");
+        }
+    };
+    const handleDownloadTicket = async (orderId) => {
+        const token = localStorage.getItem("token");
+
+        try {
+            const response = await axios.get(
+                `http://localhost:8000/api/orders/${orderId}/download`,
+                {
+                    responseType: "blob",
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+
+            // Crée un lien de téléchargement du PDF
+            const blob = new Blob([response.data], { type: "application/pdf" });
+            const url = window.URL.createObjectURL(blob);
+            const link = document.createElement("a");
+            link.href = url;
+            link.setAttribute("download", `E-Billet_${orderId}.pdf`);
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+        } catch (error) {
+            console.error("Erreur téléchargement billet :", error);
+            alert("Impossible de télécharger le billet.");
+        }
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log("Réservation envoyée :", formData);
-        alert("Votre réservation a été prise en compte !");
-    };
 
     return (
         <div className="container">
-            <h1>Réservation de Tickets 🎫</h1>
-            <p>Réservez vos billets pour les Jeux Olympiques en toute simplicité</p>
-            <form onSubmit={handleSubmit} className="form">
-                <label>Nom :</label>
-                <input
-                    type="text"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    required
-                />
+            <h1>Mes Réservations 📋</h1>
 
-                <label>Email :</label>
-                <input
-                    type="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                />
+            {loading ? (
+                <p>Chargement...</p>
+            ) : orders.length === 0 ? (
+                <p>Vous n'avez pas encore de réservation.</p>
+            ) : (
+                <div className="order-list">
+                    {orders.map((order) => (
+                        <div key={order.id} className="card mb-3 p-3">
+                            <p><strong>Offre :</strong> {order.offer?.name}</p>
+                            <p><strong>Status :</strong> {order.status}</p>
+                            <p><strong>Validé le :</strong> {order.validated_at || "—"}</p>
 
-                <label>Offre :</label>
-                <select name="offer" value={formData.offer} onChange={handleChange}>
-                    {offers.map((offer, index) => (
-                        <option key={index} value={offer}>
-                            {offer}
-                        </option>
+                            {order.status !== "PAID" && (
+                                <button
+                                    className="btn btn-primary"
+                                    onClick={() => handlePayment(order.id)}
+                                >
+                                    💳 Payer
+                                </button>
+                            )}
+
+                            {order.status === "PAID" && (
+                                <>
+                                <p className="text-success">✅ Payé</p>
+                                <button
+                                className="btn btn-outline-success mt-2"
+                                onClick={() => handleDownloadTicket(order.id)}
+                        >
+                            📥 Télécharger mon billet
+                        </button>
+                        </>
+
+                            )}
+                        </div>
                     ))}
-                </select>
-
-                <label>Quantité :</label>
-                <input
-                    type="number"
-                    name="quantity"
-                    value={formData.quantity}
-                    min="1"
-                    onChange={handleChange}
-                    required
-                />
-
-                <button type="submit" className="btn">Réserver</button>
-            </form>
+                </div>
+            )}
         </div>
     );
 };
