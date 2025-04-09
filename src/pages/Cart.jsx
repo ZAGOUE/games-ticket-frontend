@@ -27,7 +27,7 @@ const Cart = () => {
         try {
             for (const item of cart) {
                 const response = await axios.post(
-                    "http://127.0.0.1:8000/api/orders",
+                    `http://localhost:8000/api/orders`,
                     {
                         offer_id: item.id,
                         quantity: item.quantity,
@@ -35,18 +35,19 @@ const Cart = () => {
                     {
                         headers: {
                             Authorization: `Bearer ${token}`,
+
                         },
                     }
                 );
 
-                console.log("Commande créée :", response.data);
+                console.log("✅ Commande créée :", response.data);
             }
 
             alert("Commande validée avec succès !");
             clearCart();
             navigate("/booking", { state: { fromCart: true } });
         } catch (error) {
-            console.error("Erreur lors de la validation :", error);
+            console.error(" ❌ Erreur lors de la validation :", error);
             alert("Une erreur est survenue. Merci de réessayer.");
         }
     };

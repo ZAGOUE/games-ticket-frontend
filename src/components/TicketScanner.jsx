@@ -1,87 +1,97 @@
-import React, { useState } from "react";
-import { QrReader } from "react-qr-reader";
-import axios from "axios";
+// src/components/TicketScanner.jsx
+import React, { useEffect, useRef, useState } from "react";
+import { Html5QrcodeScanner } from "html5-qrcode";
 
-const TicketScanner = () => {
-    const [scanResult, setScanResult] = useState(null);
-    const [error, setError] = useState(null);
+const TicketScanner = ({ onScanSuccess }) => {
+    const scannerRef = useRef(null);
+    const [scanned, setScanned] = useState(false);
+    const [cameraError, setCameraError] = useState(null);
+    const [cameraReady, setCameraReady] = useState(false);
 
-    const handleScan = async (result) => {
-        if (result?.text) {
-            let orderKey = result.text;
+    useEffect(() => {
+        // Vérification plus robuste de onScanSuccess
+        if (!onScanSuccess || typeof onScanSuccess !== "function") {
+            console.error("❌ onScanSuccess n'est pas une fonction valide", onScanSuccess);
+            return;
+        }
 
-            // Extraire la clé si un lien complet est scanné
-            const prefix = "verify-ticket/";
-            if (orderKey.includes(prefix)) {
-                orderKey = orderKey.split(prefix).pop();
-            }
-
-            console.log("🎯 QR Code détecté :", orderKey);
-
+        const initScanner = async () => {
             try {
-                const token = localStorage.getItem("token");
-                const res = await axios.get(
-                    `/api/orders/verify-ticket/${orderKey}`,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${token}`,
-                        },
+                // Test de permission caméra
+                await navigator.mediaDevices.getUserMedia({ video: true });
+
+                setCameraReady(true);
+                const scanner = new Html5QrcodeScanner("reader", {
+                    fps: 10,
+                    qrbox: { width: 300, height: 300 },
+                    rememberLastUsedCamera: true,
+                });
+
+                scanner.render(
+                    (decodedText) => {
+                        console.log("✅ QR Code détecté :", decodedText);
+                        setScanned(true);
+                        scanner.clear().then(() => {
+                            onScanSuccess(decodedText);
+                        }).catch((err) => {
+                            console.error("Erreur à l'arrêt du scanner :", err);
+                        });
+                    },
+                    (error) => {
+                        console.log("Scan error (normal during operation):", error);
                     }
                 );
-                setScanResult(res.data);
-                setError(null);
+
+                scannerRef.current = scanner;
             } catch (err) {
-                setError(err.response?.data?.message || "Billet invalide ou déjà utilisé.");
-                setScanResult(null);
+                console.error("❌ Erreur caméra :", err);
+                setCameraError("Impossible d'accéder à la caméra. Vérifiez les autorisations.");
             }
+        };
+
+        initScanner();
+
+        return () => {
+            if (scannerRef.current) {
+                scannerRef.current.clear().catch((err) => {
+                    console.error("Erreur clear (unmount) :", err);
+                });
+            }
+        };
+    }, [onScanSuccess]);
+
+    const handleRestart = () => {
+        setScanned(false);
+        setCameraReady(false);
+        setCameraError(null);
+        if (scannerRef.current) {
+            scannerRef.current.clear().then(() => {
+                // Réinitialiser le scanner plutôt que recharger la page
+                window.location.reload();
+            });
         }
     };
 
-
-
-
-
     return (
-        <div className="p-4 max-w-md mx-auto">
-            <h2 className="text-xl font-bold mb-4">🎟️ Scanner un billet</h2>
-            <div style={{ border: "2px dashed #999", padding: "1rem", background: "#f9f9f9" }}>
-                <p className="text-sm text-gray-500">Montrez un QR code dans la zone ci-dessous.</p>
+        <div className="text-center mt-4">
 
-                <QrReader
-                    constraints={{ facingMode: "user" }} // ou "environment"
-                    videoContainerStyle={{ width: "100%", height: "auto" }}
-                    videoStyle={{ width: "100%", maxHeight: "400px" }}
-                    onResult={(result, error) => {
-                        if (result?.text) {
-                            handleScan(result);
-                        }
 
-                        // Ne logue l’erreur que si elle est réelle
-                        if (error && error.message) {
-                            console.warn("Erreur QR Reader :", error.message);
-                        }
-                    }}
+            {!cameraReady && !cameraError && (
+                <p className="text-gray-500">⏳ Chargement de la caméra...</p>
+            )}
 
-                />
-            </div>
+            <div id="reader" style={{ width: "100%", maxWidth: 500, margin: "auto" }}></div>
 
-            {scanResult && (
-                <div className="mt-4 p-3 border rounded shadow">
-                    <h3 className="font-semibold">✅ Billet vérifié</h3>
-                    <p><strong>Nom :</strong> {scanResult.user}</p>
-                    <p><strong>Offre :</strong> {scanResult.offer}</p>
-                    <p><strong>Status :</strong> {scanResult.status}</p>
-                    <p><strong>Validé le :</strong> {scanResult.validated_at || "—"}</p>
-                    <button className="mt-3 btn btn-secondary" onClick={() => setScanResult(null)}>
-                        🔄 Scanner un autre billet
+            {cameraError && (
+                <div className="mt-3 text-red-600 font-semibold">
+                    {cameraError}
+                    <button onClick={handleRestart} className="ml-2 btn btn-primary">
+                        Réessayer
                     </button>
                 </div>
             )}
-            {error && (
-                <div className="mt-4 p-3 bg-red-100 text-red-800 border border-red-400 rounded">
-                    ❌ {error}
-                </div>
-            )}
+
+
         </div>
     );
 };
