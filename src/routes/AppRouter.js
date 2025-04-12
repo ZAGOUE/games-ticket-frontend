@@ -1,5 +1,5 @@
-import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import React, {useEffect, useState} from "react";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import Home from "../pages/Home";
 import Booking from "../pages/Booking";
 import Register from "../pages/Register";
@@ -8,11 +8,39 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Offers from "../pages/Offers";
 import Login from "../pages/Login";
-import TicketScanner from '../components/TicketScanner';
 import ScanTicket from "../pages/ScanTicket";
 import Cart from "../pages/Cart";
+import AdminOffers from "../pages/AdminOffers";
+import AccessDenied from "../components/AccessDenied";
+
+const getUserRoleFromToken = () => {
+    const token = localStorage.getItem("token");
+    if (!token) return [];
+
+    try {
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        return payload.roles || [];
+    } catch (e) {
+        return [];
+    }
+};
 
 const AppRouter = () => {
+    const [role, setRole] = useState([]);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            const newRole = getUserRoleFromToken();
+            if (JSON.stringify(newRole) !== JSON.stringify(role)) {
+                setRole(newRole);
+            }
+        }, 200); // vérifie toutes les 200 ms
+
+        return () => clearInterval(interval);
+    }, [role]);
+
+    const isAdmin = Array.isArray(role) && role.includes("ROLE_ADMIN");
+
     return (
         <Router>
             <Header />
@@ -23,8 +51,11 @@ const AppRouter = () => {
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/admin" element={<Dashboard />} />
-                <Route path="/scan-ticket" element={<ScanTicket />} />
                 <Route path="/cart" element={<Cart />} />
+                <Route path="/dashboard" element={<Dashboard />} />
+
+                <Route path="/admin/offers" element={isAdmin ? <AdminOffers /> : <AccessDenied />} />
+                <Route path="/scan-ticket" element={isAdmin ? <ScanTicket /> : <AccessDenied />} />
             </Routes>
             <Footer />
         </Router>

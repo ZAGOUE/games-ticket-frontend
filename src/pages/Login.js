@@ -47,13 +47,15 @@ const Login = () => {
             const { token, roles } = response.data;
 
             localStorage.setItem("token", token);
+
             login(email, roles);
 
             alert("Connexion réussie !");
             if (autoValidate) {
                 sessionStorage.setItem("autoValidate", "true");
             }
-            navigate(redirectPath);
+
+
         } catch (err) {
             setError("Email ou mot de passe incorrect !");
         }
@@ -68,9 +70,11 @@ const Login = () => {
                 <form onSubmit={handleLogin} className="login-form">
                     <input
                         type="email"
+                        name="email"
                         placeholder="Email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
+                        autoComplete="email"
                         required
                     />
                     <input

@@ -1,38 +1,40 @@
 import React, { useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import {Link} from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 import { useCart } from "../context/CartContext";
 
 const Header = () => {
-    const { user, logout } = useContext(UserContext);
+    const { userEmail, logout } = useContext(UserContext);
     const { cart } = useCart();
-    const navigate = useNavigate();
 
     const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
 
     const handleLogout = () => {
         logout();
+        localStorage.removeItem("token");
         alert("Vous êtes déconnecté.");
-        navigate("/login");
+        window.location.href = "/login";
     };
 
     const handleNewRegistration = () => {
         logout();
-        navigate("/register", { state: { reset: true } });
+        localStorage.removeItem("token");
+        window.location.href = "/login";
     };
 
     return (
         <header>
-            <h1>GamesTicket</h1>
+            <h1 className="games">GamesTicket</h1>
             <nav>
                 <Link to="/">Accueil</Link>
                 <Link to="/offers">Offres</Link>
                 <Link to="/booking">Réservation</Link>
                 <Link to="/scan-ticket">Scanner un billet</Link>
+                <Link to="/admin/offers">Gérer les Offres</Link>
 
-                {user?.email ? (
+                {userEmail ? (
                     <>
-                        <span style={{ marginLeft: "1rem" }}>👋 Bienvenue, {user.email}</span>
+                        <span style={{ marginLeft: "1rem" }}>👋 Bienvenue, {userEmail}</span>
                         <button onClick={handleLogout} style={{ marginLeft: "1rem" }}>Déconnexion</button>
                         <button onClick={handleNewRegistration} style={{ marginLeft: "1rem" }}>Changer d'utilisateur</button>
                     </>
@@ -58,8 +60,8 @@ const Header = () => {
                                 fontSize: "12px",
                             }}
                         >
-                            {totalItems}
-                        </span>
+                             {totalItems}
+                         </span>
                     )}
                 </Link>
             </nav>
