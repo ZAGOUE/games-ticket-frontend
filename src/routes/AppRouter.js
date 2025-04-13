@@ -12,6 +12,7 @@ import ScanTicket from "../pages/ScanTicket";
 import Cart from "../pages/Cart";
 import AdminOffers from "../pages/AdminOffers";
 import AccessDenied from "../components/AccessDenied";
+import AdminOrders from "../pages/AdminOrders";
 
 const getUserRoleFromToken = () => {
     const token = localStorage.getItem("token");
@@ -53,6 +54,8 @@ const AppRouter = () => {
                 <Route path="/admin" element={<Dashboard />} />
                 <Route path="/cart" element={<Cart />} />
                 <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/admin/orders" element={<AdminOrders />} />
+
 
                 <Route path="/admin/offers" element={isAdmin ? <AdminOffers /> : <AccessDenied />} />
                 <Route path="/scan-ticket" element={isAdmin ? <ScanTicket /> : <AccessDenied />} />

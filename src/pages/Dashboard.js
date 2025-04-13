@@ -62,25 +62,28 @@ const Dashboard = () => {
                         <table>
                             <thead>
                             <tr>
-                                <th>Événement</th>
-                                <th>Date</th>
+
+                                <th>Billet</th>
                                 <th>Prix (€)</th>
                                 <th>Statut</th>
-                                <th>Actions</th>
+
                             </tr>
                             </thead>
                             <tbody>
-                            {tickets.map((ticket) => (
+                            {tickets.map((ticket) => {
+
+                                console.log("Ticket :", ticket);
+                                return (
                                 <tr key={ticket.id}>
-                                    <td>{ticket.eventName}</td>
-                                    <td>{ticket.eventDate}</td>
-                                    <td>{ticket.price}</td>
+
+                                    <td>{ticket.offer?.name || "—"}</td>
+                                    <td>{ticket.offer?.price || "—"}</td>
                                     <td>{ticket.status}</td>
-                                    <td>
-                                        <button onClick={() => handleDownloadTicket(ticket.id)}>📥 Télécharger</button>
-                                    </td>
+
                                 </tr>
-                            ))}
+                                )}
+                            )}
+
                             </tbody>
                         </table>
                     ) : (

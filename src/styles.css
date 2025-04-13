@@ -207,3 +207,142 @@ form.mb-4 .btn {
     height: 42px;
     align-self: center;
 }
+
+/* 🛒 CartItem - Billets dans le panier */
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+    padding: 15px 20px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.05);
+    border: 1px solid #ddd;
+}
+
+/* 🎫 Infos du billet */
+.cart-item .info {
+    text-align: left;
+}
+.cart-item .info h4 {
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+/* 🧮 Entrée quantité */
+.quantity-input {
+    width: 70px;
+    padding: 8px;
+    font-size: 1rem;
+    text-align: center;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+/* 🗑️ Bouton supprimer */
+.cart-btn {
+    padding: 10px 16px;
+    background-color: #ffe6e6;
+    color: #c00;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+.cart-btn:hover {
+    background-color: #ffcccc;
+}
+
+/* 💰 Total du panier */
+.cart-total {
+    margin-top: 30px;
+    font-size: 1.3rem;
+    font-weight: bold;
+    text-align: right;
+}
+/* Conteneur centré pour le panier */
+.cart-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 30px 20px;
+}
+
+
+/* 🧼 Actions du panier : boutons améliorés */
+.cart-actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+    gap: 20px;
+}
+
+.cart-actions button {
+    font-size: 1.1rem;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+}
+
+.clear-btn {
+    background-color: burlywood;
+    color: #a30000;
+}
+.clear-btn:hover {
+    background-color: #f5c6cb;
+}
+
+.checkout-btn {
+    background-color: #005bb5;
+    color: white;
+}
+.checkout-btn:hover {
+    background-color: #218838;
+}
+.order-list {
+    max-height: 500px;
+    overflow-y: auto;
+    padding-right: 10px;
+    margin-bottom: 20px;
+}
+.admin-orders-table {
+    max-height: 70vh;
+    overflow-y: auto;
+    display: block;
+}
+.admin-orders-table td:first-child,
+.admin-orders-table td:nth-child(2) {
+    text-align: left;
+    padding-left: 12px;
+}
+.status {
+    font-weight: bold;
+    padding: 4px 8px;
+    border-radius: 6px;
+    text-align: center;
+    display: inline-block;
+    min-width: 70px;
+}
+
+.status.pending {
+    background-color: khaki;
+    color: #856404;
+    border: 1px solid #ffeeba;
+}
+
+.status.paid {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.status.used {
+    background-color: lightsalmon;
+    color: #0c5460;
+    border: 1px solid #bee5eb;
+}
+
