@@ -25,7 +25,7 @@ const Dashboard = () => {
     const isController = roles.includes("ROLE_CONTROLLER");
 
     useEffect(() => {
-        if (isAdmin) return; // on saute fetchOrders pour l'admin
+        if (isAdmin) return;
 
         const fetchOrders = async () => {
             try {

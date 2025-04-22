@@ -5,7 +5,6 @@ import { UserContext } from "../context/UserContext";
 import "../App.css";
 
 
-
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -17,7 +16,7 @@ const Login = () => {
     const redirectPath = searchParams.get("redirect") || "/dashboard";
     const autoValidate = searchParams.get("autoValidate") === "true";
 
-    // Redirection immédiate si déjà connecté
+    // Redirection immédiate si connectée
     useEffect(() => {
         if (userEmail && localStorage.getItem("token")) {
             navigate(redirectPath);
@@ -36,7 +35,6 @@ const Login = () => {
         setError("");
 
         try {
-
             const response = await axios.post("http://localhost:8000/api/login_check", {
                 email,
                 password
@@ -45,17 +43,31 @@ const Login = () => {
             });
 
             const { token, roles } = response.data;
-
             localStorage.setItem("token", token);
 
-            login(email, roles);
+    // Décoder le token pour obtenir l'email
+            const payload = JSON.parse(atob(token.split('.')[1]));
+            const userEmail = payload.username;
+
+    // Appel à l’API pour récupérer les noms
+            const userResponse = await axios.get(`http://localhost:8000/api/users/email/${userEmail}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+
+            const { first_name, last_name } = userResponse.data;
+            localStorage.setItem("first_name", first_name);
+            localStorage.setItem("last_name", last_name);
+
+    // Met à jour le contexte
+            login(userEmail, roles);
 
             alert("Connexion réussie !");
             if (autoValidate) {
                 sessionStorage.setItem("autoValidate", "true");
             }
-
-
+            navigate(redirectPath);
         } catch (err) {
             setError("Email ou mot de passe incorrect !");
         }

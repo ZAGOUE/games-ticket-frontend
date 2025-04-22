@@ -63,7 +63,8 @@ const Register = () => {
             if (error.response?.status === 409) {
                 setError("Cet email est déjà utilisé.");
             } else if (error.response?.data?.errors) {
-                // ✅ Affiche les erreurs retournées par le backend (ex: mot de passe faible)
+
+                // ✅ Affiche les erreurs retournées par le backend (mot de passe faible)
                 setError(error.response.data.errors.join("\n"));
             } else {
                 setError("Une erreur s'est produite. Veuillez réessayer.");

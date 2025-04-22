@@ -1,15 +1,14 @@
-// src/components/TicketScanner.jsx
 import React, { useEffect, useRef, useState } from "react";
 import { Html5QrcodeScanner } from "html5-qrcode";
 
 const TicketScanner = ({ onScanSuccess }) => {
     const scannerRef = useRef(null);
-    const [scanned, setScanned] = useState(false);
+    const [ setScanned] = useState(false);
     const [cameraError, setCameraError] = useState(null);
     const [cameraReady, setCameraReady] = useState(false);
 
     useEffect(() => {
-        // Vérification plus robuste de onScanSuccess
+
         if (!onScanSuccess || typeof onScanSuccess !== "function") {
             console.error("❌ onScanSuccess n'est pas une fonction valide", onScanSuccess);
             return;

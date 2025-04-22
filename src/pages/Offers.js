@@ -31,7 +31,7 @@ const Offers = () => {
             <div className="offers d-flex flex-wrap gap-4 justify-content-center">
 
                 {offers.map((offer) => {
-                    console.log("Offre reçue :", offer); // 👈 à ajouter temporairement
+                    console.log("Offre reçue :", offer);
                     return (
                         <div
                             key={offer.id}

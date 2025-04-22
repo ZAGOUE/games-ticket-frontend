@@ -4,7 +4,7 @@ export const UserContext = createContext({
     user: null,
     userEmail: null,
     isAdmin: false,
-    roleReady: false,  // ✅ nouveau flag
+    roleReady: false,
     login: () => {},
     logout: () => {},
 });
@@ -12,7 +12,7 @@ export const UserContext = createContext({
 export const UserProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [isAdmin, setIsAdmin] = useState(false);
-    const [roleReady, setRoleReady] = useState(false); // ✅ nouveau
+    const [roleReady, setRoleReady] = useState(false);
     const [isController, setIsController] = useState(false);
 
     useEffect(() => {
@@ -28,7 +28,7 @@ export const UserProvider = ({ children }) => {
 
         }
 
-        setRoleReady(true); // ✅ prêt à rendre le rôle
+        setRoleReady(true);
     }, []);
 
     const login = (email, roles = []) => {
@@ -37,7 +37,7 @@ export const UserProvider = ({ children }) => {
 
         setUser({ email, roles });
         setIsAdmin(roles.includes("ROLE_ADMIN"));
-        setRoleReady(true); // ✅ prêt aussi après login
+        setRoleReady(true);
         setIsController(roles.includes("ROLE_CONTROLLER"));
     };
 

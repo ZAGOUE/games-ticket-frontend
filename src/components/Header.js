@@ -3,15 +3,38 @@ import { Link } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 import { useCart } from "../context/CartContext";
 
+const getUserInfoFromToken = () => {
+    const token = localStorage.getItem("token");
+    if (!token) return {};
+
+    try {
+        const payload = JSON.parse(atob(token.split(".")[1]));
+        return {
+            firstName: payload.first_name || payload.firstName || "",
+            lastName: payload.last_name || payload.lastName || "",
+            email: payload.username || payload.email || ""
+        };
+    } catch (error) {
+        console.error("Error decoding token:", error);
+        return {};
+    }
+};
+
 const Header = () => {
     const { userEmail, logout } = useContext(UserContext);
     const { cart } = useCart();
 
     const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
 
+// Récupère les informations depuis le localStorage ou le token
+    const firstName = localStorage.getItem("first_name");
+    const lastName = localStorage.getItem("last_name");
+
     const handleLogout = () => {
         logout();
         localStorage.removeItem("token");
+        localStorage.removeItem("first_name");
+        localStorage.removeItem("last_name");
         alert("Vous êtes déconnecté.");
         window.location.href = "/login";
     };
@@ -70,7 +93,11 @@ const Header = () => {
 
                 {userEmail ? (
                     <>
-                        <span style={{ marginLeft: "1rem" }}>👋 Bienvenue, {userEmail}</span>
+                       <span style={{ marginLeft: "1rem" }}>
+                        👋 Bienvenue, {firstName && lastName ? `${firstName} ${lastName}` : userEmail }
+                        </span>
+
+
                         <button onClick={handleLogout} style={{ marginLeft: "1rem" }}>Déconnexion</button>
                         {!isAdmin && (
                             <button onClick={handleNewRegistration} style={{ marginLeft: "1rem" }}>

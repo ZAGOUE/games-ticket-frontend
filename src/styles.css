@@ -448,3 +448,36 @@ form.mb-4 .btn {
     border-radius: 12px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
 }
+.admin-stats-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+    gap: 2rem;
+}
+
+.stat-block {
+    background-color: #f4f4f4;
+    padding: 1.2rem 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    min-width: 260px;
+    flex-grow: 1;
+    text-align: left;
+}
+
+.stat-block h2 {
+    font-size: 1.3rem;
+    color: #0055aa;
+    margin-bottom: 1rem;
+}
+
+.stat-block ul {
+    padding-left: 1rem;
+    margin: 0;
+}
+
+.stat-block li {
+    margin-bottom: 0.4rem;
+    font-size: 1.1rem;
+}

@@ -1,8 +1,6 @@
-// src/pages/ScanTicket.jsx
 import React, { useState } from "react";
 import TicketScanner from "../components/TicketScanner";
 import axios from "axios";
-import {data} from "react-router-dom";
 
 const ScanTicket = () => {
     const [result, setResult] = useState(null);
@@ -38,7 +36,7 @@ const ScanTicket = () => {
             const responseData = err.response?.data;
 
             if (responseData?.code === 'ticket_already_used') {
-                // 👉 on met quand même les infos dans result
+
                 setResult({
                     status: 'error',
                     code: responseData.code,
@@ -92,7 +90,6 @@ const ScanTicket = () => {
                             ❌ Billet déjà utilisé
                         </h2>
                     ) : null}
-
 
 
                     <p><strong>Validé le :</strong> {result.validated_at || "—"}</p>
