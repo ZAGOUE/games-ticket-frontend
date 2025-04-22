@@ -62,6 +62,9 @@ const Register = () => {
             console.log("Réponse erreur:", error.response);
             if (error.response?.status === 409) {
                 setError("Cet email est déjà utilisé.");
+            } else if (error.response?.data?.errors) {
+                // ✅ Affiche les erreurs retournées par le backend (ex: mot de passe faible)
+                setError(error.response.data.errors.join("\n"));
             } else {
                 setError("Une erreur s'est produite. Veuillez réessayer.");
             }
@@ -76,7 +79,12 @@ const Register = () => {
         <div className="register-page">
             <div className="register-container">
                 <h1>Inscription 📝</h1>
-                {error && <p style={{ color: "red" }}>{error}</p>}
+                {error && (
+                    <div style={{ color: "red", whiteSpace: "pre-line" }}>
+                        {error}
+                    </div>
+                )}
+
                 {success && <p style={{ color: "green" }}>{success}</p>}
                 <form onSubmit={handleSubmit} className="register-form">
                     <input

@@ -22,6 +22,7 @@ const Dashboard = () => {
 
     const roles = getRolesFromToken();
     const isAdmin = roles.includes("ROLE_ADMIN");
+    const isController = roles.includes("ROLE_CONTROLLER");
 
     useEffect(() => {
         if (isAdmin) return; // on saute fetchOrders pour l'admin
@@ -36,54 +37,55 @@ const Dashboard = () => {
         };
 
         fetchOrders();
-    }, [isAdmin]);
+    }, [isAdmin], [isController]);
 
     return (
         <div className="dashboard-container">
-            {isAdmin ? (
+            {isAdmin && (
                 <div className="admin-section">
                     <h1>👋 Bienvenue, Administrateur !</h1>
-                    <p>Vous pouvez scanner des billets ou gérer les offres.</p>
+                    <p>Vous pouvez gérer les offres.</p>
                     <div style={{ display: "flex", justifyContent: "center", gap: "15px", marginTop: "20px" }}>
-                        <button onClick={() => navigate("/scan-ticket")} className="btn btn-primary">
-                            📷 Scanner un billet
-                        </button>
                         <button onClick={() => navigate("/admin/offers")} className="btn btn-primary">
                             ⚙️ Gérer les offres
                         </button>
                     </div>
                 </div>
-            ) : (
+            )}
+
+            {isController && !isAdmin && (
+                <div className="controller-section">
+                    <h1>👋 Bienvenue, Contrôleur !</h1>
+                    <p>Vous pouvez scanner les billets.</p>
+                    <div style={{ display: "flex", justifyContent: "center", gap: "15px", marginTop: "20px" }}>
+                        <button onClick={() => navigate("/scan-ticket")} className="btn btn-primary">
+                            📷 Scanner un billet
+                        </button>
+                    </div>
+                </div>
+            )}
+
+            {!isAdmin && !isController && (
                 <>
                     <h1>🎟️ Mes Billets</h1>
                     {error && <p style={{ color: "red" }}>{error}</p>}
-
                     {tickets.length > 0 ? (
                         <table>
                             <thead>
                             <tr>
-
                                 <th>Billet</th>
                                 <th>Prix (€)</th>
                                 <th>Statut</th>
-
                             </tr>
                             </thead>
                             <tbody>
-                            {tickets.map((ticket) => {
-
-                                console.log("Ticket :", ticket);
-                                return (
+                            {tickets.map((ticket) => (
                                 <tr key={ticket.id}>
-
                                     <td>{ticket.offer?.name || "—"}</td>
                                     <td>{ticket.offer?.price || "—"}</td>
                                     <td>{ticket.status}</td>
-
                                 </tr>
-                                )}
-                            )}
-
+                            ))}
                             </tbody>
                         </table>
                     ) : (
@@ -93,6 +95,7 @@ const Dashboard = () => {
             )}
         </div>
     );
+
 };
 
 const handleDownloadTicket = async (orderId) => {

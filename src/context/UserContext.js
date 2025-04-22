@@ -13,6 +13,7 @@ export const UserProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [isAdmin, setIsAdmin] = useState(false);
     const [roleReady, setRoleReady] = useState(false); // ✅ nouveau
+    const [isController, setIsController] = useState(false);
 
     useEffect(() => {
         const token = localStorage.getItem("token");
@@ -22,6 +23,9 @@ export const UserProvider = ({ children }) => {
         if (token && email) {
             setUser({ email, roles });
             setIsAdmin(roles.includes("ROLE_ADMIN"));
+            setIsController(roles.includes("ROLE_CONTROLLER"));
+
+
         }
 
         setRoleReady(true); // ✅ prêt à rendre le rôle
@@ -34,6 +38,7 @@ export const UserProvider = ({ children }) => {
         setUser({ email, roles });
         setIsAdmin(roles.includes("ROLE_ADMIN"));
         setRoleReady(true); // ✅ prêt aussi après login
+        setIsController(roles.includes("ROLE_CONTROLLER"));
     };
 
     const logout = () => {
@@ -46,7 +51,7 @@ export const UserProvider = ({ children }) => {
     };
 
     return (
-        <UserContext.Provider value={{ user, userEmail: user?.email || null, isAdmin, roleReady, login, logout }}>
+        <UserContext.Provider value={{ user, userEmail: user?.email || null, isAdmin, isController, roleReady, login, logout }}>
             {children}
         </UserContext.Provider>
     );

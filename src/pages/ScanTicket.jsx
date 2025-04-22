@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import TicketScanner from "../components/TicketScanner";
 import axios from "axios";
+import {data} from "react-router-dom";
 
 const ScanTicket = () => {
     const [result, setResult] = useState(null);
@@ -32,12 +33,26 @@ const ScanTicket = () => {
 
             setResult(response.data);
             setError(null);
+
         } catch (err) {
-            console.error("Erreur de vérification :", err);
-            const errorMessage = err.response?.data?.message || err.message || "Erreur lors de la vérification.";
-            setError(errorMessage);
-            setResult(null);
+            const responseData = err.response?.data;
+
+            if (responseData?.code === 'ticket_already_used') {
+                // 👉 on met quand même les infos dans result
+                setResult({
+                    status: 'error',
+                    code: responseData.code,
+                    validated_at: responseData.validated_at,
+                    message: responseData.message
+                });
+                setError(null);
+            } else {
+                const errorMessage = responseData?.message || err.message || "Erreur lors de la vérification.";
+                setError(errorMessage);
+                setResult(null);
+            }
         }
+
     };
 
     const handleRestartScan = () => {
@@ -62,9 +77,24 @@ const ScanTicket = () => {
             {result && (
                 <div className="mt-4 p-3 border rounded shadow">
                     <h3 className="font-semibold">✅ Billet vérifié</h3>
-                    <p><strong>Utilisateur :</strong> {result.user}</p>
-                    <p><strong>Offre :</strong> {result.offer}</p>
-                    <p><strong>Status :</strong> {result.status}</p>
+                    {result.user && (
+                        <p>
+                            <strong>Utilisateur :</strong> {result.user.first_name} {result.user.last_name} ({result.user.email})
+                        </p>
+                    )}
+
+                    {result.status === 'success' ? (
+                        <h2 style={{ color: 'green', fontSize: '1.8em' }}>
+                            ✔️ Billet validé avec succès
+                        </h2>
+                    ) : result.status === 'error' && result.code === 'ticket_already_used' ? (
+                        <h2 style={{ color: 'red', fontSize: '1.8em' }}>
+                            ❌ Billet déjà utilisé
+                        </h2>
+                    ) : null}
+
+
+
                     <p><strong>Validé le :</strong> {result.validated_at || "—"}</p>
                 </div>
             )}

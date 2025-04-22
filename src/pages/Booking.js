@@ -106,8 +106,9 @@ const Booking = () => {
             </h1>
 
             {orders.length > 0 ? (
-                <div className="d-flex flex-wrap justify-content-center gap-4" style={{ maxHeight: "70vh", overflowY: "auto" }}>
-                    {orders.map((order) => (
+                <div className="ticket-scroll-container">
+
+                {orders.map((order) => (
                         <div key={order.id} className="border p-3 rounded shadow-sm" style={{ width: "250px" }}>
                             {user?.roles.includes("ROLE_ADMIN") && (
                                 <>

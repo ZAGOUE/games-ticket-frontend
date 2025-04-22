@@ -41,6 +41,12 @@ const AppRouter = () => {
     }, [role]);
 
     const isAdmin = Array.isArray(role) && role.includes("ROLE_ADMIN");
+    const isController = Array.isArray(role) && role.includes("ROLE_CONTROLLER");
+    console.log("Rôles détectés :", role);
+    console.log("isAdmin :", isAdmin);
+    console.log("isController :", isController);
+
+
 
     return (
         <Router>
@@ -58,7 +64,8 @@ const AppRouter = () => {
 
 
                 <Route path="/admin/offers" element={isAdmin ? <AdminOffers /> : <AccessDenied />} />
-                <Route path="/scan-ticket" element={isAdmin ? <ScanTicket /> : <AccessDenied />} />
+                <Route path="/scan-ticket" element={isController ? <ScanTicket /> : <AccessDenied />} />
+
             </Routes>
             <Footer />
         </Router>

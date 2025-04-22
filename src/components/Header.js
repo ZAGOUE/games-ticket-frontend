@@ -22,38 +22,51 @@ const Header = () => {
         window.location.href = "/login";
     };
 
-    // Détection du rôle admin via token
+    // Détection du rôle via token
     const token = localStorage.getItem("token");
-    let isAdmin = false;
+    let roles = [];
+
+
     if (token) {
+
         try {
-            const payload = JSON.parse(atob(token.split('.')[1]));
-            isAdmin = payload.roles?.includes("ROLE_ADMIN");
-        } catch (e) {
-            isAdmin = false;
+            const decoded = JSON.parse(atob(token.split(".")[1]));
+            roles = decoded.roles || [];
+        } catch (error) {
+            console.error("Erreur de décodage du token :", error);
         }
     }
+
+    const isAdmin = roles.includes("ROLE_ADMIN");
+    const isController = roles.includes("ROLE_CONTROLLER");
+
 
     return (
         <header>
             <h1 className="games">GamesTicket</h1>
             <nav>
-                {!isAdmin && (
-                    <>
-                        <Link to="/">Accueil</Link>
-                        <Link to="/offers">Offres</Link>
-                        <Link to="/booking">Réservation</Link>
-
-                    </>
-                )}
                 {isAdmin && (
                     <>
                         <Link to="/dashboard">Tableau de bord</Link>
                         <Link to="/admin/orders">Toutes les réservations</Link>
-                        <Link to="/scan-ticket">Scanner un billet</Link>
                         <Link to="/admin/offers">Gérer les Offres</Link>
                     </>
                 )}
+
+                {isController && !isAdmin && (
+                    <>
+                        <Link to="/scan-ticket">Scanner un billet</Link>
+                    </>
+                )}
+
+                {!isAdmin && !isController && (
+                    <>
+                        <Link to="/">Accueil</Link>
+                        <Link to="/offers">Offres</Link>
+                        <Link to="/booking">Réservation</Link>
+                    </>
+                )}
+
 
                 {userEmail ? (
                     <>
@@ -72,7 +85,7 @@ const Header = () => {
                     </>
                 )}
 
-                {!isAdmin && (
+                {!isAdmin && !isController && (
                     <Link to="/cart" className="relative" style={{ position: "relative", marginLeft: "1rem" }}>
                         🛒 Panier
                         {totalItems > 0 && (

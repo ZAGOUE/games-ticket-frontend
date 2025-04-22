@@ -21,11 +21,20 @@ const AdminOffers = () => {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setForm({ ...form, [name]: value });
+        setForm({
+            ...form,
+            [name]: name === "price" || name === "max_people" ? Number(value) : value
+        });
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const dataToSend = {
+            name: form.name,
+            description: form.description,
+            price: form.price,
+            maxPeople: form.max_people, // 🔥 attention ici
+        };
         try {
             if (editingId) {
                 await axios.put(`/api/offers/${editingId}`, form, {
@@ -49,7 +58,7 @@ const AdminOffers = () => {
             name: offer.name,
             description: offer.description,
             price: offer.price,
-            max_people: offer.max_people,
+            max_people: offer.maxPeople,
         });
         setEditingId(offer.id);
     };
@@ -78,7 +87,7 @@ const AdminOffers = () => {
                 <input type="text" name="name" placeholder="Nom" value={form.name} onChange={handleChange} required />
                 <input type="text" name="description" placeholder="Description" value={form.description} onChange={handleChange} required />
                 <input type="number" name="price" placeholder="Prix" value={form.price} onChange={handleChange} required />
-                <input type="number" name="max_people" placeholder="Places" value={form.max_people} onChange={handleChange} required />
+                <input type="number" name="max_people" placeholder="Places" value={form.max_people} onChange={handleChange} min={1} required />
                 <button type="submit" className="btn btn-primary mt-2">
                     {editingId ? "Modifier" : "Créer"} l'offre
                 </button>
