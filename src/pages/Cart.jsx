@@ -2,8 +2,8 @@ import React, { useContext, useEffect, useState } from "react";
 import { useCart } from "../context/CartContext";
 import CartItem from "../components/CartItem";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { UserContext } from "../context/UserContext";
+import api from "../services/api"; // ✅ Remplacer axios par api
 
 const Cart = () => {
     const { cart, removeFromCart, updateQuantity, clearCart } = useCart();
@@ -25,16 +25,11 @@ const Cart = () => {
 
         try {
             for (const item of cart) {
-                const response = await axios.post(
-                    "http://localhost:8000/api/orders",
+                const response = await api.post(
+                    "/orders",
                     {
                         offer_id: item.id,
                         quantity: item.quantity,
-                    },
-                    {
-                        headers: {
-                            Authorization: `Bearer ${token}`,
-                        },
                     }
                 );
 

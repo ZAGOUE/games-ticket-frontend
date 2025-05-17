@@ -25,15 +25,15 @@ const Home = () => {
                 <h2>🏅 Épreuves à la une</h2>
                 <div className="event-cards">
                     <div className="event-card">
-                        <img src="/images/events/athletisme.jpg" alt="Athlétisme" />
+                        <img src={`${process.env.PUBLIC_URL}/images/events/athletisme.jpg`} alt="Athlétisme" />
                         <p className="event-name">Athlétisme</p>
                     </div>
                     <div className="event-card">
-                        <img src="/images/events/natation.jpg" alt="Natation" />
+                        <img src={`${process.env.PUBLIC_URL}/images/events/natation.jpg`} alt="Natation" />
                         <p className="event-name">Natation</p>
                     </div>
                     <div className="event-card">
-                        <img src="/images/events/gymnastique.jpg" alt="Gymnastique" />
+                        <img src={`${process.env.PUBLIC_URL}/images/events/gymnastique.jpg`} alt="Gymnastique" />
                         <p className="event-name">Gymnastique</p>
                     </div>
                 </div>

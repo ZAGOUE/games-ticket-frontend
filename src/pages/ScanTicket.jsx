@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import TicketScanner from "../components/TicketScanner";
 import axios from "axios";
+import api from "../services/api";
 
 const ScanTicket = () => {
     const [result, setResult] = useState(null);
@@ -9,10 +10,19 @@ const ScanTicket = () => {
     const handleScanSuccess = async (text) => {
         console.log("SCAN DÉTECTÉ :", text);
 
-        let orderKey = text;
-        if (text.includes("/verify-ticket/")) {
-            orderKey = text.split("/verify-ticket/")[1];
+        let orderKey = text.trim();
+
+// Vérifie si c'est une URL complète ou juste une clé
+        if (orderKey.includes("http")) {
+            const url = new URL(orderKey);
+            const pathParts = url.pathname.split("/");
+            orderKey = pathParts[pathParts.length - 1]; // Récupère juste la clé
         }
+
+// Vérifie les cas où le texte n'est qu'une clé brute
+        orderKey = orderKey.replace(/[^a-z0-9]/gi, "");
+
+
 
         const token = localStorage.getItem("token");
         console.log("📦 Token envoyé :", token);
@@ -23,7 +33,7 @@ const ScanTicket = () => {
         }
 
         try {
-            const response = await axios.get(`/api/orders/verify-ticket/${orderKey}`, {
+            const response = await api.get(`/orders/verify-ticket/${orderKey}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import api from "../services/api";
 
 const AdminOffers = () => {
     const [offers, setOffers] = useState([]);
@@ -9,9 +10,10 @@ const AdminOffers = () => {
 
     const fetchOffers = async () => {
         try {
-            const res = await axios.get("/api/offers", {
+            const res = await api.get("/offers", {
                 headers: { Authorization: `Bearer ${token}` },
             });
+            console.log("📦 Offres reçues :", res.data); // Ajoute ce log pour vérifier la réponse
             setOffers(res.data);
         } catch (err) {
             console.error("Erreur chargement offres:", err);
@@ -32,15 +34,15 @@ const AdminOffers = () => {
             name: form.name,
             description: form.description,
             price: form.price,
-            maxPeople: form.max_people, // 🔥 attention ici
+            max_people: form.max_people, // 🔥 attention ici
         };
         try {
             if (editingId) {
-                await axios.put(`/api/offers/${editingId}`, form, {
+                await api.put(`/offers/${editingId}`, form, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
             } else {
-                await axios.post("/api/offers", form, {
+                await api.post("/offers", form, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
             }
@@ -65,7 +67,7 @@ const AdminOffers = () => {
     const handleDelete = async (id) => {
         if (window.confirm("Supprimer cette offre ?")) {
             try {
-                await axios.delete(`/api/offers/${id}`, {
+                await api.delete(`/offers/${id}`, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
                 fetchOffers();

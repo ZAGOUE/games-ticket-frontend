@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
-import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
+import api from "../services/api"; // ✅ On utilise ton api.js
 
 const Booking = () => {
     const [orders, setOrders] = useState([]);
@@ -13,17 +13,10 @@ const Booking = () => {
         if (!user) return;
 
         const url = user.roles.includes("ROLE_ADMIN")
-            ? "http://localhost:8000/api/orders/all"
-            : "http://localhost:8000/api/orders";
+            ? "/orders/all"
+            : "/orders";
 
-        const token = localStorage.getItem("token");
-
-        axios
-            .get(url, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            })
+        api.get(url)
             .then((response) => {
                 setOrders(response.data);
             })
@@ -41,11 +34,8 @@ const Booking = () => {
 
     const handleDownloadTicket = async (orderId) => {
         try {
-            const response = await axios.get(`http://localhost:8000/api/orders/${orderId}/download`, {
-                responseType: "blob",
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("token")}`,
-                },
+            const response = await api.get(`/orders/${orderId}/download`, {
+                responseType: "blob"
             });
 
             const url = window.URL.createObjectURL(new Blob([response.data]));
@@ -62,16 +52,8 @@ const Booking = () => {
     };
 
     const handlePayment = async (orderId) => {
-        const token = localStorage.getItem("token");
-
         try {
-            const response = await axios.post(
-                `http://localhost:8000/api/orders/${orderId}/pay`,
-                {},
-                {
-                    headers: { Authorization: `Bearer ${token}` },
-                }
-            );
+            const response = await api.post(`/orders/${orderId}/pay`, {});
 
             alert("Paiement simulé avec succès !");
             const { validated_at } = response.data;
@@ -88,7 +70,6 @@ const Booking = () => {
             alert("Erreur lors du paiement.");
         }
     };
-
 
     const renderStatus = (status) => {
         const styles = {
@@ -107,8 +88,7 @@ const Booking = () => {
 
             {orders.length > 0 ? (
                 <div className="ticket-scroll-container">
-
-                {orders.map((order) => (
+                    {orders.map((order) => (
                         <div key={order.id} className="border p-3 rounded shadow-sm" style={{ width: "250px" }}>
                             {user?.roles.includes("ROLE_ADMIN") && (
                                 <>
@@ -117,6 +97,7 @@ const Booking = () => {
                                 </>
                             )}
                             <p><strong>Offre :</strong> {order.offer?.name}</p>
+                            <p><strong>Prix (€) :</strong> {order.offer?.price ?? "—"}</p>
                             <p><strong>Status :</strong> {renderStatus(order.status)}</p>
 
                             {!user?.roles.includes("ROLE_ADMIN") && order.status === "PAID" && (

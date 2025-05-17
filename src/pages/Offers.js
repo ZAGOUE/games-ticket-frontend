@@ -1,20 +1,14 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { useCart } from "../context/CartContext";
+import api from "../services/api";
 
 const Offers = () => {
     const { addToCart } = useCart();
     const [offers, setOffers] = useState([]);
 
     useEffect(() => {
-        const token = localStorage.getItem("token");
 
-        const headers = token
-            ? { Authorization: `Bearer ${token}` }
-            : {}; // 👈 Pas d'Authorization si pas connecté
-
-        axios
-            .get("http://localhost:8000/api/offers", { headers })
+        api.get("/offers")
             .then((res) => setOffers(res.data))
             .catch((err) => console.error("Erreur chargement des offres :", err));
     }, []);

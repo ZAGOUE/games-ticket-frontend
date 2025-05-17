@@ -1,25 +1,18 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Html5QrcodeScanner } from "html5-qrcode";
+import { Html5QrcodeScanner, Html5Qrcode } from "html5-qrcode";
 
 const TicketScanner = ({ onScanSuccess }) => {
     const scannerRef = useRef(null);
-    const [ setScanned] = useState(false);
+    const [scanned, setScanned] = useState(false);
     const [cameraError, setCameraError] = useState(null);
     const [cameraReady, setCameraReady] = useState(false);
 
     useEffect(() => {
-
-        if (!onScanSuccess || typeof onScanSuccess !== "function") {
-            console.error("❌ onScanSuccess n'est pas une fonction valide", onScanSuccess);
-            return;
-        }
-
         const initScanner = async () => {
             try {
-                // Test de permission caméra
                 await navigator.mediaDevices.getUserMedia({ video: true });
-
                 setCameraReady(true);
+
                 const scanner = new Html5QrcodeScanner("reader", {
                     fps: 10,
                     qrbox: { width: 300, height: 300 },
@@ -28,13 +21,8 @@ const TicketScanner = ({ onScanSuccess }) => {
 
                 scanner.render(
                     (decodedText) => {
-                        console.log("✅ QR Code détecté :", decodedText);
                         setScanned(true);
-                        scanner.clear().then(() => {
-                            onScanSuccess(decodedText);
-                        }).catch((err) => {
-                            console.error("Erreur à l'arrêt du scanner :", err);
-                        });
+                        scanner.clear().then(() => onScanSuccess(decodedText));
                     },
                     (error) => {
                         console.log("Scan error (normal during operation):", error);
@@ -52,45 +40,50 @@ const TicketScanner = ({ onScanSuccess }) => {
 
         return () => {
             if (scannerRef.current) {
-                scannerRef.current.clear().catch((err) => {
-                    console.error("Erreur clear (unmount) :", err);
-                });
+                scannerRef.current.clear().catch((err) => console.error("Erreur clear (unmount) :", err));
             }
         };
     }, [onScanSuccess]);
 
-    const handleRestart = () => {
-        setScanned(false);
-        setCameraReady(false);
-        setCameraError(null);
-        if (scannerRef.current) {
-            scannerRef.current.clear().then(() => {
-                // Réinitialiser le scanner plutôt que recharger la page
-                window.location.reload();
-            });
+    const handleFileUpload = async (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new Html5Qrcode("reader");
+            try {
+                const result = await reader.scanFile(file, true);
+                console.log("✅ QR Code détecté depuis l'image :", result);
+                onScanSuccess(result);
+            } catch (error) {
+                console.error("Erreur lors du scan du fichier :", error);
+                setCameraError("Erreur lors du scan de l'image. Vérifiez que l'image contient bien un QR Code.");
+            }
         }
     };
 
     return (
         <div className="text-center mt-4">
-
-
             {!cameraReady && !cameraError && (
                 <p className="text-gray-500">⏳ Chargement de la caméra...</p>
             )}
 
             <div id="reader" style={{ width: "100%", maxWidth: 500, margin: "auto" }}></div>
 
+            <input
+                type="file"
+                accept="image/*"
+                onChange={handleFileUpload}
+                className="mt-3 btn btn-secondary"
+                style={{ display: "block", margin: "10px auto" }}
+            />
+
             {cameraError && (
                 <div className="mt-3 text-red-600 font-semibold">
                     {cameraError}
-                    <button onClick={handleRestart} className="ml-2 btn btn-primary">
+                    <button onClick={() => window.location.reload()} className="ml-2 btn btn-primary">
                         Réessayer
                     </button>
                 </div>
             )}
-
-
         </div>
     );
 };
