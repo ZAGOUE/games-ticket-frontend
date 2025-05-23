@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
-import api from "../services/api"; // ✅ On utilise ton api.js
+import api from "../services/api";
 
 const Booking = () => {
     const [orders, setOrders] = useState([]);
@@ -13,8 +13,8 @@ const Booking = () => {
         if (!user) return;
 
         const url = user.roles.includes("ROLE_ADMIN")
-            ? "/orders/all"
-            : "/orders";
+            ? "/api/orders/all"
+            : "/api/orders";
 
         api.get(url)
             .then((response) => {
@@ -34,7 +34,7 @@ const Booking = () => {
 
     const handleDownloadTicket = async (orderId) => {
         try {
-            const response = await api.get(`/orders/${orderId}/download`, {
+            const response = await api.get(`/api/orders/${orderId}/download`, {
                 responseType: "blob"
             });
 
@@ -53,7 +53,7 @@ const Booking = () => {
 
     const handlePayment = async (orderId) => {
         try {
-            const response = await api.post(`/orders/${orderId}/pay`, {});
+            const response = await api.post(`/api/orders/${orderId}/pay`, {});
 
             alert("Paiement simulé avec succès !");
             const { validated_at } = response.data;

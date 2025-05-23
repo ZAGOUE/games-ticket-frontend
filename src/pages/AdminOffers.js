@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import api from "../services/api";
 
 const AdminOffers = () => {
@@ -10,7 +9,7 @@ const AdminOffers = () => {
 
     const fetchOffers = async () => {
         try {
-            const res = await api.get("/offers", {
+            const res = await api.get("/api/offers", {
                 headers: { Authorization: `Bearer ${token}` },
             });
             console.log("📦 Offres reçues :", res.data); // Ajoute ce log pour vérifier la réponse
@@ -34,15 +33,15 @@ const AdminOffers = () => {
             name: form.name,
             description: form.description,
             price: form.price,
-            max_people: form.max_people, // 🔥 attention ici
+            max_people: form.max_people,
         };
         try {
             if (editingId) {
-                await api.put(`/offers/${editingId}`, form, {
+                await api.put(`/api/offers/${editingId}`, form, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
             } else {
-                await api.post("/offers", form, {
+                await api.post("/api/offers", form, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
             }
@@ -67,7 +66,7 @@ const AdminOffers = () => {
     const handleDelete = async (id) => {
         if (window.confirm("Supprimer cette offre ?")) {
             try {
-                await api.delete(`/offers/${id}`, {
+                await api.delete(`/api/offers/${id}`, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
                 fetchOffers();

@@ -48,7 +48,7 @@ const Register = () => {
             await register(formData);
             setSuccess("Inscription réussie !");
 
-            // ✅ Réinitialiser les champs immédiatement
+            // Réinitialiser les champs immédiatement
             setFormData({
                 firstName: "",
                 lastName: "",
@@ -56,7 +56,7 @@ const Register = () => {
                 password: ""
             });
 
-            // ⏳ Redirection après 2 secondes
+            // Redirection après 2 secondes
             setTimeout(() => navigate("/login"), 2000);
         } catch (error) {
             console.log("Réponse erreur:", error.response);
@@ -64,7 +64,7 @@ const Register = () => {
                 setError("Cet email est déjà utilisé.");
             } else if (error.response?.data?.errors) {
 
-                // ✅ Affiche les erreurs retournées par le backend (mot de passe faible)
+                // Affiche les erreurs retournées par le backend
                 setError(error.response.data.errors.join("\n"));
             } else {
                 setError("Une erreur s'est produite. Veuillez réessayer.");

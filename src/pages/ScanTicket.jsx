@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import TicketScanner from "../components/TicketScanner";
-import axios from "axios";
 import api from "../services/api";
 
 const ScanTicket = () => {
@@ -33,7 +32,7 @@ const ScanTicket = () => {
         }
 
         try {
-            const response = await api.get(`/orders/verify-ticket/${orderKey}`, {
+            const response = await api.get(`/api/orders/verify-ticket/${orderKey}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },

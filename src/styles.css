@@ -134,7 +134,7 @@ h1 {
 .form button:hover {
     background-color: #005bb5;
 }
-/* 🗒️ Amélioration de la liste des offres */
+/*  la liste des offres */
 .list-group {
     list-style: none;
     padding: 0;
@@ -142,7 +142,7 @@ h1 {
     max-width: 800px;
 }
 
-/* 📦 Chaque élément d'offre */
+/* Chaque élément d'offre */
 .list-group-item {
     display: flex;
     justify-content: space-between;
@@ -155,26 +155,26 @@ h1 {
     box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.05);
 }
 
-/* 📄 Texte à gauche */
+/* Texte à gauche */
 .list-group-item > div:first-child {
     text-align: left;
     font-size: 1rem;
 }
 
-/* 🧰 Zone des boutons */
+/* Zone des boutons */
 .list-group-item > div:last-child {
     display: flex;
     gap: 8px;
 }
 
-/* 🖱️ Boutons d’action (✏️ et 🗑️) */
+/* Boutons d’action (✏️ et 🗑️) */
 .list-group-item .btn-sm {
     padding: 6px 10px;
     font-size: 0.9rem;
     border-radius: 6px;
 
 }
-/* 🔄 Amélioration formulaire d'offres */
+/* formulaire d'offres */
 form.mb-4 {
     display: flex;
     flex-wrap: wrap;
@@ -200,7 +200,7 @@ form.mb-4 input[name="max_people"] {
     font-size: 0.95rem;
     text-align: center;
 }
-/* 🖌️ Amélioration du bouton de création */
+/*  bouton de création */
 form.mb-4 .btn {
     padding: 10px 20px;
     font-size: 0.95rem;
@@ -221,7 +221,7 @@ form.mb-4 .btn {
     border: 1px solid #ddd;
 }
 
-/* 🎫 Infos du billet */
+/* Infos du billet */
 .cart-item .info {
     text-align: left;
 }
@@ -231,7 +231,7 @@ form.mb-4 .btn {
     margin-bottom: 5px;
 }
 
-/* 🧮 Entrée quantité */
+/* Entrée quantité */
 .quantity-input {
     width: 70px;
     padding: 8px;
@@ -241,7 +241,7 @@ form.mb-4 .btn {
     border: 1px solid #ccc;
 }
 
-/* 🗑️ Bouton supprimer */
+/* Bouton supprimer */
 .cart-btn {
     padding: 10px 16px;
     background-color: #ffe6e6;
@@ -256,7 +256,7 @@ form.mb-4 .btn {
     background-color: #ffcccc;
 }
 
-/* 💰 Total du panier */
+/* Total du panier */
 .cart-total {
     margin-top: 30px;
     font-size: 1.3rem;
@@ -271,7 +271,7 @@ form.mb-4 .btn {
 }
 
 
-/* 🧼 Actions du panier : boutons améliorés */
+/* Actions du panier : boutons  */
 .cart-actions {
     display: flex;
     justify-content: center;
@@ -376,7 +376,7 @@ form.mb-4 .btn {
     color: #6c757d; /* muted */
     margin-bottom: 0.75rem;
 }
-/* 🏅 Section Jeux Olympiques */
+/* Section Jeux Olympiques */
 .home-section {
     margin-top: 40px;
     text-align: center;
@@ -394,7 +394,7 @@ form.mb-4 .btn {
     margin: 0 auto;
 }
 
-/* 🏃‍♂️ Épreuves à la une */
+/* Épreuves à la une */
 .event-cards {
     display: flex;
     justify-content: center;

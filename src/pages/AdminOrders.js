@@ -14,7 +14,7 @@ const AdminOrders = () => {
 
         const fetchOrders = async () => {
             try {
-                const response = await api.get("/orders/all", {
+                const response = await api.get("/api/orders/all", {
                     headers: { Authorization: `Bearer ${token}` },
                 });
                 setOrders(response.data);
@@ -26,7 +26,7 @@ const AdminOrders = () => {
 
         const fetchStats = async () => {
             try {
-                const response = await api.get("/admin/stats/offers", {
+                const response = await api.get("/api/admin/stats/offers", {
                     headers: { Authorization: `Bearer ${token}` },
                 });
                 setOfferStats(response.data);

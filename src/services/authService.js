@@ -1,14 +1,14 @@
-import axios from "axios";
-import { jwtDecode } from 'jwt-decode'; // ✅ correct
+import api from "./api";
+import { jwtDecode } from 'jwt-decode';
 
 
 
-const API_URL = "http://127.0.0.1:8000/api";
-
+const API_URL = process.env.REACT_APP_API_URL;
+console.log("API_URL utilisé:", API_URL);
 // Connexion
 export const login = async (email, password) => {
     try {
-        const response = await axios.post(`${API_URL}/login`, { email, password });
+        const response = await api.post(`${API_URL}/api/login`, { email, password });
         const token = response.data.token;
 
         if (token) {
@@ -45,7 +45,7 @@ export const register = async (userData) => {
     console.log("Envoi à l'API:", JSON.stringify(payload, null, 2));
 
     try {
-        const response = await axios.post(`${API_URL}/users/register`, payload);
+        const response = await api.post(`${API_URL}/api/users/register`, payload);
         return response.data;
     } catch (error) {
         console.error("Erreur lors de l'inscription :", error.response);

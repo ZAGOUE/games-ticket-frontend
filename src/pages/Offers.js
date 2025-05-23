@@ -8,7 +8,7 @@ const Offers = () => {
 
     useEffect(() => {
 
-        api.get("/offers")
+        api.get("/api/offers")
             .then((res) => setOffers(res.data))
             .catch((err) => console.error("Erreur chargement des offres :", err));
     }, []);

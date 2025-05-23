@@ -37,7 +37,7 @@ const Login = () => {
         console.log("Mot de passe :", password);
 
         try {
-            const response = await api.post("/login", {
+            const response = await api.post("/api/login", {
                 email,
                 password
             });
@@ -48,7 +48,7 @@ const Login = () => {
             const payload = JSON.parse(atob(token.split('.')[1]));
             const userEmail = payload.username;
 
-            const userResponse = await api.get(`/users/email/${userEmail}`);
+            const userResponse = await api.get(`/api/users/email/${userEmail}`);
             const { first_name, last_name } = userResponse.data;
             localStorage.setItem("first_name", first_name);
             localStorage.setItem("last_name", last_name);

@@ -3,7 +3,7 @@ import { useCart } from "../context/CartContext";
 import CartItem from "../components/CartItem";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
-import api from "../services/api"; // ✅ Remplacer axios par api
+import api from "../services/api";
 
 const Cart = () => {
     const { cart, removeFromCart, updateQuantity, clearCart } = useCart();
@@ -26,7 +26,7 @@ const Cart = () => {
         try {
             for (const item of cart) {
                 const response = await api.post(
-                    "/orders",
+                    "/api/orders",
                     {
                         offer_id: item.id,
                         quantity: item.quantity,
@@ -40,7 +40,7 @@ const Cart = () => {
             clearCart();
             navigate("/booking", { state: { fromCart: true } });
         } catch (error) {
-            console.error("❌ Erreur lors de la validation :", error);
+            console.error(" Erreur lors de la validation :", error);
             alert("Une erreur est survenue. Merci de réessayer.");
         }
     };
