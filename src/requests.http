@@ -21,3 +21,9 @@ Content-Type: application/json
   "email": "olivier@example.com",
   "password": "tonMotDePasse"
 }
+
+### Test nouvelle URL directe via sous-domaine
+GET https://api.zagoue22.com/api/offers
+Accept: application/json
+
+

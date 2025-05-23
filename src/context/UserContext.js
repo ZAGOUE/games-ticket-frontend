@@ -1,14 +1,19 @@
-import React, { createContext, useState, useEffect } from "react";
+import {createContext, useEffect, useState} from "react";
 
 export const UserContext = createContext({
     user: null,
     userEmail: null,
+    isAdmin: false,
+    roleReady: false,
     login: () => {},
     logout: () => {},
 });
 
 export const UserProvider = ({ children }) => {
     const [user, setUser] = useState(null);
+    const [isAdmin, setIsAdmin] = useState(false);
+    const [roleReady, setRoleReady] = useState(false);
+    const [isController, setIsController] = useState(false);
 
     useEffect(() => {
         const token = localStorage.getItem("token");
@@ -17,13 +22,23 @@ export const UserProvider = ({ children }) => {
 
         if (token && email) {
             setUser({ email, roles });
+            setIsAdmin(roles.includes("ROLE_ADMIN"));
+            setIsController(roles.includes("ROLE_CONTROLLER"));
+
+
         }
+
+        setRoleReady(true);
     }, []);
 
     const login = (email, roles = []) => {
         localStorage.setItem("email", email);
         localStorage.setItem("roles", JSON.stringify(roles));
+
         setUser({ email, roles });
+        setIsAdmin(roles.includes("ROLE_ADMIN"));
+        setRoleReady(true);
+        setIsController(roles.includes("ROLE_CONTROLLER"));
     };
 
     const logout = () => {
@@ -31,12 +46,12 @@ export const UserProvider = ({ children }) => {
         localStorage.removeItem("email");
         localStorage.removeItem("roles");
         setUser(null);
+        setIsAdmin(false);
+        setRoleReady(false);
     };
 
-    const userEmail = user?.email || null;
-
     return (
-        <UserContext.Provider value={{ user, userEmail, login, logout }}>
+        <UserContext.Provider value={{ user, userEmail: user?.email || null, isAdmin, isController, roleReady, login, logout }}>
             {children}
         </UserContext.Provider>
     );

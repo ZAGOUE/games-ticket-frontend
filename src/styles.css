@@ -1,4 +1,4 @@
-/* Styles de base */
+
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -59,6 +59,9 @@ footer {
 h1 {
     color: #0073e6;
 }
+.games {
+    color: white;
+}
 /* Boutons */
 .btn {
     display: inline-block;
@@ -103,7 +106,7 @@ h1 {
     background: white;
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
     max-width: 400px;
     margin: auto;
 }
@@ -130,4 +133,351 @@ h1 {
 
 .form button:hover {
     background-color: #005bb5;
+}
+/*  la liste des offres */
+.list-group {
+    list-style: none;
+    padding: 0;
+    margin: 0 auto;
+    max-width: 800px;
+}
+
+/* Chaque élément d'offre */
+.list-group-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f9f9f9;
+    margin-bottom: 10px;
+    padding: 15px 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Texte à gauche */
+.list-group-item > div:first-child {
+    text-align: left;
+    font-size: 1rem;
+}
+
+/* Zone des boutons */
+.list-group-item > div:last-child {
+    display: flex;
+    gap: 8px;
+}
+
+/* Boutons d’action (✏️ et 🗑️) */
+.list-group-item .btn-sm {
+    padding: 6px 10px;
+    font-size: 0.9rem;
+    border-radius: 6px;
+
+}
+/* formulaire d'offres */
+form.mb-4 {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+form.mb-4 input[name="name"],
+form.mb-4 input[name="description"] {
+    width: 400px;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 0.95rem;
+}
+
+form.mb-4 input[name="price"],
+form.mb-4 input[name="max_people"] {
+    width: 100px;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 0.95rem;
+    text-align: center;
+}
+/*  bouton de création */
+form.mb-4 .btn {
+    padding: 10px 20px;
+    font-size: 0.95rem;
+    height: 42px;
+    align-self: center;
+}
+
+/* 🛒 CartItem - Billets dans le panier */
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+    padding: 15px 20px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.05);
+    border: 1px solid #ddd;
+}
+
+/* Infos du billet */
+.cart-item .info {
+    text-align: left;
+}
+.cart-item .info h4 {
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+/* Entrée quantité */
+.quantity-input {
+    width: 70px;
+    padding: 8px;
+    font-size: 1rem;
+    text-align: center;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+/* Bouton supprimer */
+.cart-btn {
+    padding: 10px 16px;
+    background-color: #ffe6e6;
+    color: #c00;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+.cart-btn:hover {
+    background-color: #ffcccc;
+}
+
+/* Total du panier */
+.cart-total {
+    margin-top: 30px;
+    font-size: 1.3rem;
+    font-weight: bold;
+    text-align: right;
+}
+/* Conteneur centré pour le panier */
+.cart-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 30px 20px;
+}
+
+
+/* Actions du panier : boutons  */
+.cart-actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+    gap: 20px;
+}
+
+.cart-actions button {
+    font-size: 1.1rem;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+}
+
+.clear-btn {
+    background-color: burlywood;
+    color: #a30000;
+}
+.clear-btn:hover {
+    background-color: #f5c6cb;
+}
+
+.checkout-btn {
+    background-color: #005bb5;
+    color: white;
+}
+.checkout-btn:hover {
+    background-color: #218838;
+}
+.order-list {
+    max-height: 500px;
+    overflow-y: auto;
+    padding-right: 10px;
+    margin-bottom: 20px;
+}
+.admin-orders-table {
+    max-height: 70vh;
+    overflow-y: auto;
+    display: block;
+}
+.admin-orders-table td:first-child,
+.admin-orders-table td:nth-child(2) {
+    text-align: left;
+    padding-left: 12px;
+}
+.status {
+    font-weight: bold;
+    padding: 4px 8px;
+    border-radius: 6px;
+    text-align: center;
+    display: inline-block;
+    min-width: 70px;
+}
+
+.status.pending {
+    background-color: khaki;
+    color: #856404;
+    border: 1px solid #ffeeba;
+}
+
+.status.paid {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.status.used {
+    background-color: lightsalmon;
+    color: #0c5460;
+    border: 1px solid #bee5eb;
+}
+
+.card-offer {
+    width: 250px;
+    height: 380px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.card-offer h2 {
+    font-size: 1.25rem;
+}
+
+.card-offer .description {
+    min-height: 60px;
+    max-height: 60px;
+    overflow: hidden;
+    margin-bottom: 0.5rem;
+}
+
+.card-offer .price {
+    font-weight: bold;
+    margin-bottom: 0.25rem;
+}
+
+.card-offer .people {
+    color: #6c757d; /* muted */
+    margin-bottom: 0.75rem;
+}
+/* Section Jeux Olympiques */
+.home-section {
+    margin-top: 40px;
+    text-align: center;
+}
+
+.home-section h2 {
+    color: #0073e6;
+    margin-bottom: 10px;
+}
+
+.home-section p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+/* Épreuves à la une */
+.event-cards {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.event-card {
+    width: 400px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    text-align: center;
+}
+
+.event-card img {
+    width: 100%;
+    height: 260px;
+    object-fit: cover;
+}
+
+
+.event-card p {
+    font-weight: bold;
+    padding: 10px;
+    font-size: 1rem;
+}
+.ticket-scroll-container {
+    display: flex;
+    overflow-x: auto;
+    padding: 10px;
+    gap: 20px;
+    scroll-snap-type: x mandatory;
+}
+
+.ticket-scroll-container::-webkit-scrollbar {
+    height: 10px;
+}
+.ticket-scroll-container::-webkit-scrollbar-thumb {
+    background: #aaa;
+    border-radius: 10px;
+}
+.ticket-scroll-container > div {
+    scroll-snap-align: start;
+    flex: 0 0 auto;
+    width: 350px;
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+.admin-stats-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+    gap: 2rem;
+}
+
+.stat-block {
+    background-color: #f4f4f4;
+    padding: 1.2rem 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    min-width: 260px;
+    flex-grow: 1;
+    text-align: left;
+}
+
+.stat-block h2 {
+    font-size: 1.3rem;
+    color: #0055aa;
+    margin-bottom: 1rem;
+}
+
+.stat-block ul {
+    padding-left: 1rem;
+    margin: 0;
+}
+
+.stat-block li {
+    margin-bottom: 0.4rem;
+    font-size: 1.1rem;
 }
