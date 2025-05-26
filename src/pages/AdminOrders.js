@@ -87,12 +87,12 @@ const AdminOrders = () => {
                             <tbody>
                             {orders.map((order) => (
                                 <tr key={order.id}>
-                                    <td>{order.user}</td>
-                                    <td>{order.offer}</td>
-                                    <td className={`status ${order.status.toLowerCase()}`}>
+                                    <td data-label="Utilisateur">{order.user}</td>
+                                    <td data-label="Billet">{order.offer}</td>
+                                    <td data-label="Statut" className={`status ${order.status.toLowerCase()}`}>
                                         {order.status}
                                     </td>
-                                    <td>{order.validated_at || "Non validé"}</td>
+                                    <td data-label="Validé le">{order.validated_at || "Non validé"}</td>
                                 </tr>
                             ))}
                             </tbody>

@@ -89,8 +89,9 @@ const Booking = () => {
             {orders.length > 0 ? (
                 <div className="ticket-scroll-container">
                     {orders.map((order) => (
-                        <div key={order.id} className="border p-3 rounded shadow-sm" style={{ width: "250px" }}>
-                            {user?.roles.includes("ROLE_ADMIN") && (
+                        <div key={order.id} className="order-card border p-3 rounded shadow-sm">
+
+                        {user?.roles.includes("ROLE_ADMIN") && (
                                 <>
                                     <p><strong>Utilisateur :</strong> {order.user}</p>
                                     <p><strong>Validé le :</strong> {order.validated_at || "—"}</p>

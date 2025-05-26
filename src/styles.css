@@ -481,3 +481,424 @@ form.mb-4 .btn {
     margin-bottom: 0.4rem;
     font-size: 1.1rem;
 }
+
+/* 🔄 Responsive pour la page Home */
+@media (max-width: 768px) {
+    .container {
+        width: 95%;
+        padding: 15px;
+    }
+
+    .event-cards {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .event-card {
+        width: 90%;
+    }
+
+    .home-section h2 {
+        font-size: 1.4rem;
+    }
+
+    .home-section p {
+        font-size: 1rem;
+        padding: 0 10px;
+    }
+
+    .btn {
+        width: 100%;
+        max-width: 250px;
+    }
+}
+
+/* === HEADER RESPONSIVE === */
+.header {
+    background-color: #0073e6;
+    color: white;
+    padding: 10px 20px;
+}
+
+.header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.menu-toggle {
+    font-size: 1.5rem;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    display: none;
+}
+
+/* Menu */
+.nav-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.nav-links a, .nav-links button, .user-info {
+    color: white;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: bold;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.nav-links .cart-count {
+    position: absolute;
+    top: -6px;
+    right: -12px;
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    padding: 2px 6px;
+    font-size: 12px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .menu-toggle {
+        display: block;
+    }
+
+    .nav-links {
+        display: none;
+        flex-direction: column;
+        gap: 10px;
+        background-color: #0073e6;
+        padding: 10px 0;
+    }
+
+    .nav-links.open {
+        display: flex;
+    }
+
+    .nav-links a, .nav-links button, .user-info {
+        text-align: center;
+        width: 100%;
+        padding: 5px 0;
+    }
+}
+@media (max-width: 768px) {
+    .offers {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .card-offer {
+        width: 90%;
+        max-width: 350px;
+    }
+
+    .card-offer h2 {
+        font-size: 1.2rem;
+    }
+
+    .card-offer .description {
+        font-size: 0.95rem;
+    }
+
+    .card-offer .price {
+        font-size: 1rem;
+    }
+
+    .card-offer .people {
+        font-size: 0.9rem;
+    }
+
+    .btn {
+        width: 100%;
+        max-width: 300px;
+        margin: 0 auto;
+    }
+}
+@media (max-width: 768px) {
+    .cart-container {
+        padding: 20px 10px;
+    }
+
+    .cart-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .cart-item .info {
+        text-align: left;
+        width: 100%;
+    }
+
+    .quantity-input {
+        width: 100%;
+        max-width: 120px;
+    }
+
+    .cart-total {
+        text-align: left;
+        margin-top: 20px;
+        font-size: 1.2rem;
+    }
+
+    .cart-actions {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+        margin-top: 20px;
+    }
+
+    .cart-actions button {
+        width: 100%;
+        font-size: 1rem;
+    }
+}
+@media (max-width: 768px) {
+    .dashboard-container {
+        padding: 20px 10px;
+    }
+
+    .admin-section,
+    .controller-section {
+        text-align: center;
+        padding: 20px;
+    }
+
+    .admin-section .btn,
+    .controller-section .btn {
+        width: 100%;
+        max-width: 250px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        display: block;
+        overflow-x: auto;
+    }
+
+    table thead {
+        display: none;
+    }
+
+    table tr {
+        display: block;
+        margin-bottom: 1rem;
+        background: #f9f9f9;
+        padding: 10px;
+        border-radius: 8px;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+    }
+
+    table td {
+        display: block;
+        text-align: left;
+        padding: 8px 12px;
+        border-bottom: 1px solid #eee;
+    }
+
+    table td::before {
+        content: attr(data-label);
+        font-weight: bold;
+        display: block;
+        margin-bottom: 4px;
+        color: #0073e6;
+    }
+}
+.order-card {
+    width: 250px;
+    min-height: 200px;
+    background-color: #fff;
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+    transition: transform 0.2s ease;
+}
+
+.order-card:hover {
+    transform: scale(1.02);
+}
+
+@media (max-width: 768px) {
+    .ticket-scroll-container {
+        display: flex;
+        overflow-x: auto;
+        gap: 16px;
+        padding: 10px;
+        scroll-snap-type: x mandatory;
+    }
+
+    .order-card {
+        width: 90%;
+        max-width: 350px;
+    }
+
+    .order-card button {
+        width: 100%;
+        margin-top: 8px;
+        font-size: 0.95rem;
+    }
+}
+@media (max-width: 768px) {
+    form.mb-4 {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        padding: 10px;
+    }
+
+    form.mb-4 input {
+        width: 100%;
+        font-size: 1rem;
+        padding: 10px;
+        border-radius: 6px;
+    }
+
+    form.mb-4 .btn {
+        width: 100%;
+        font-size: 1rem;
+    }
+
+    .list-group-item {
+        flex-direction: column;
+        align-items: flex-start !important;
+        gap: 10px;
+    }
+
+    .list-group-item > div:first-child {
+        font-size: 1rem;
+        word-break: break-word;
+    }
+
+    .list-group-item > div:last-child {
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+    }
+
+    .list-group-item .btn-sm {
+        flex: 1 1 auto;
+    }
+}
+@media (max-width: 768px) {
+    .admin-stats-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .admin-orders-table {
+        overflow-x: auto;
+        display: block;
+    }
+
+    .admin-orders-table table {
+        width: 100%;
+        border-collapse: collapse;
+        display: block;
+    }
+
+    .admin-orders-table thead {
+        display: none;
+    }
+
+    .admin-orders-table tr {
+        display: block;
+        margin-bottom: 1rem;
+        background: #fff;
+        padding: 10px;
+        border-radius: 10px;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+    }
+
+    .admin-orders-table td {
+        display: block;
+        padding: 8px 12px;
+        border-bottom: 1px solid #eee;
+    }
+
+    .admin-orders-table td::before {
+        content: attr(data-label);
+        font-weight: bold;
+        display: block;
+        color: #0073e6;
+        margin-bottom: 4px;
+    }
+
+    .status {
+        margin-top: 8px;
+    }
+}
+@media (max-width: 768px) {
+    .scan-result {
+        padding: 16px;
+        font-size: 1rem;
+        text-align: left;
+        background-color: #fff;
+    }
+
+    .scan-result h2 {
+        font-size: 1.4rem !important;
+        text-align: center;
+    }
+
+    .scan-result p {
+        margin-top: 10px;
+        font-size: 0.95rem;
+    }
+
+    .scan-result strong {
+        display: inline-block;
+        min-width: 100px;
+    }
+
+    .btn {
+        width: 100%;
+        max-width: 300px;
+    }
+}
+.cart-link {
+    position: relative;
+    display: inline-block;
+    margin-left: 1rem;
+}
+
+.cart-count {
+    position: absolute;
+    top: -6px;
+    right: -2px; /* ✅ réduit pour coller au texte */
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    padding: 2px 6px;
+    font-size: 12px;
+    line-height: 1;
+    min-width: 20px;
+    text-align: center;
+    z-index: 10;
+}
+@media (max-width: 768px) {
+    .cart-actions {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+        padding: 0 10px;
+        margin-top: 20px;
+    }
+
+    .cart-actions button {
+        width: 100%;
+        font-size: 1rem;
+        padding: 12px;
+    }
+}
+

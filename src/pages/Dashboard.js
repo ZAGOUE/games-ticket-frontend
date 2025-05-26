@@ -81,9 +81,9 @@ const Dashboard = () => {
                             <tbody>
                             {tickets.map((ticket) => (
                                 <tr key={ticket.id}>
-                                    <td>{ticket.offer?.name || "—"}</td>
-                                    <td>{ticket.offer?.price || "—"}</td>
-                                    <td>{ticket.status}</td>
+                                    <td data-label="Billet">{ticket.offer?.name || "—"}</td>
+                                    <td data-label="Prix (€)">{ticket.offer?.price || "—"}</td>
+                                    <td data-label="Statut">{ticket.status}</td>
                                 </tr>
                             ))}
                             </tbody>

@@ -82,8 +82,9 @@ const ScanTicket = () => {
             )}
 
             {result && (
-                <div className="mt-4 p-3 border rounded shadow">
-                    <h3 className="font-semibold">✅ Billet vérifié</h3>
+                <div className="scan-result mt-4 p-3 border rounded shadow">
+
+                <h3 className="font-semibold">✅ Billet vérifié</h3>
                     {result.user && (
                         <p>
                             <strong>Utilisateur :</strong> {result.user.first_name} {result.user.last_name} ({result.user.email})
