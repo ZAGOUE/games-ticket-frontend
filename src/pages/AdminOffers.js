@@ -29,12 +29,12 @@ const AdminOffers = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const dataToSend = {
-            name: form.name,
-            description: form.description,
-            price: form.price,
-            max_people: form.max_people,
-        };
+       // const dataToSend = {
+        //    name: form.name,
+        //    description: form.description,
+        //    price: form.price,
+        //    max_people: form.max_people,
+      //  };
         try {
             if (editingId) {
                 await api.put(`/api/offers/${editingId}`, form, {
@@ -77,8 +77,8 @@ const AdminOffers = () => {
     };
 
     useEffect(() => {
-        fetchOffers();
-    }, []);
+        fetchOffers().then(r => {});
+    }, [fetchOffers]);
 
     return (
         <div className="container mt-4">

@@ -3,7 +3,7 @@ import { Html5QrcodeScanner, Html5Qrcode } from "html5-qrcode";
 
 const TicketScanner = ({ onScanSuccess }) => {
     const scannerRef = useRef(null);
-    const [scanned, setScanned] = useState(false);
+    const [, setScanned] = useState(false);
     const [cameraError, setCameraError] = useState(null);
     const [cameraReady, setCameraReady] = useState(false);
 

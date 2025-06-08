@@ -98,19 +98,6 @@ const Dashboard = () => {
 
 };
 
-const handleDownloadTicket = async (orderId) => {
-    try {
-        const response = await api.get(`/api/orders/${orderId}/download`, { responseType: "blob" });
-        const url = window.URL.createObjectURL(new Blob([response.data]));
-        const link = document.createElement("a");
-        link.href = url;
-        link.setAttribute("download", `billet_${orderId}.pdf`);
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-    } catch (error) {
-        console.error("Erreur lors du téléchargement du billet:", error);
-    }
-};
+
 
 export default Dashboard;
