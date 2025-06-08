@@ -1,70 +1,131 @@
-# Getting Started with Create React App
+# 🎫 Games Ticket – Frontend React
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Frontend de l’application de billetterie en ligne pour les Jeux Olympiques. Ce projet permet aux utilisateurs de consulter des offres de billets, réserver, payer et télécharger leur e-billet avec QR Code.
 
-## Available Scripts
+## Fonctionnalités principales
 
-In the project directory, you can run:
+- Authentification sécurisée via JWT
+- Parcours utilisateur : inscription, connexion, réservation, paiement
+- Parcours administrateur : gestion des offres, réservations
+- Scan et vérification des billets (QR code) pour les contrôleurs
+- Interface responsive avec React.js
+- Notifications via **toasts** (feedback utilisateur non intrusif)
 
-### `npm start`
+## Technologies utilisées
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- React.js
+- React Router DOM
+- Axios
+- Bootstrap
+- React Toastify (toasts de notification)
+- JWT pour l’authentification (avec le backend Symfony)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+---
 
-### `npm test`
+## Installation locale
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Prérequis
 
-### `npm run build`
+- Node.js >= 16.x
+- npm >= 8.x
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Cloner le projet
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```bash
+git clone https://github.com/ZAGOUE/games-ticket-frontend
+cd games-ticket-frontend
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Installer les dépendances
 
-### `npm run eject`
+```bash
+npm install
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Configuration
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Créer un fichier `.env` à la racine avec l’URL du backend :
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```env
+REACT_APP_API_URL=https://<games-ticket-backend>
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+> Remplacez l’URL par celle de votre backend (local ou déployé).
 
-## Learn More
+---
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Lancer l’application en local
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```bash
+npm start
+```
 
-### Code Splitting
+L'application sera disponible sur `http://localhost:3000`
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+---
 
-### Analyzing the Bundle Size
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
 
-### Making a Progressive Web App
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## Déploiement continu (Netlify)
 
-### Advanced Configuration
+L’application React est connectée à GitHub et déployée automatiquement avec **Netlify**.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+### Configuration
 
-### Deployment
+1. Le dépôt GitHub est lié à Netlify via **Continuous Deployment**
+2. La commande de build utilisée est :
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+```bash
+npm run build
+```
 
-### `npm run build` fails to minify
+3. Le dossier publié est :
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+```
+build
+```
+
+4. La variable d’environnement suivante est définie :
+
+```env
+REACT_APP_API_URL=https://<games-ticket-backend>
+```
+
+---
+
+### Déploiement automatique
+
+À chaque `git push`, Netlify :
+- Récupère automatiquement le code depuis GitHub
+- Exécute la commande de build
+- Met à jour le site automatiquement
+
+Cela permet de maintenir le site à jour **sans intervention manuelle**.
+
+URL de production :  
+[https://games-ticket.netlify.app](https://games-ticket.netlify.app)
+
+---
+
+## Captures d'écran
+
+### Accueil
+![Accueil](docs/screenshots/home.png)
+
+### Réservation
+![Réservation](docs/screenshots/booking.png)
+
+### Scan de QR Code
+![Scan](docs/screenshots/scan.png)
+
+### Espace Admin
+![Admin](docs/screenshots/admin.png)
+
+---
+
+## Auteur
+
+Projet réalisé dans le cadre de la formation **Bachelor Développement d'application Web** – Projet Games Ticket – 2025  
+© STUDI – Komi AGOUZE
