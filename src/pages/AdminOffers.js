@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import api from "../services/api";
 
 const AdminOffers = () => {
@@ -7,17 +7,17 @@ const AdminOffers = () => {
     const [editingId, setEditingId] = useState(null);
     const token = localStorage.getItem("token");
 
-    const fetchOffers = async () => {
+    const fetchOffers = useCallback(async  () => {
         try {
             const res = await api.get("/api/offers", {
                 headers: { Authorization: `Bearer ${token}` },
             });
-            console.log("📦 Offres reçues :", res.data); // Ajoute ce log pour vérifier la réponse
+
             setOffers(res.data);
         } catch (err) {
             console.error("Erreur chargement offres:", err);
         }
-    };
+    }, [token]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
