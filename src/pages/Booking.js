@@ -2,6 +2,8 @@ import React, { useEffect, useState, useContext } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 import api from "../services/api";
+import { QRCode } from "qrcode.react";
+
 
 const Booking = () => {
     const [orders, setOrders] = useState([]);
@@ -102,12 +104,47 @@ const Booking = () => {
                             <p><strong>Status :</strong> {renderStatus(order.status)}</p>
 
                             {!user?.roles.includes("ROLE_ADMIN") && order.status === "PAID" && (
-                                <button
-                                    className="btn btn-outline-primary btn-sm"
-                                    onClick={() => handleDownloadTicket(order.id)}
-                                >
-                                    📥 Télécharger mon billet
-                                </button>
+                                <>
+                                    <button
+                                        className="btn btn-outline-primary btn-sm"
+                                        onClick={() => handleDownloadTicket(order.id)}
+                                    >
+                                        📥 Télécharger mon billet
+                                    </button>
+                                    <button
+                                        className="btn btn-outline-success btn-sm ms-2"
+                                        onClick={() => setOrders((prev) =>
+                                            prev.map((o) =>
+                                                o.id === order.id
+                                                    ? { ...o, showQR: !o.showQR }
+                                                    : o
+                                            )
+                                        )}
+                                    >
+                                        🎫 Afficher QR code
+                                    </button>
+                                    {order.showQR && (
+                                        <div style={{ textAlign: "center", marginTop: 20 }}>
+                                            <QRCode value={order.order_key || order.key || order.id.toString()} size={220} />
+                                            <div>
+                                                <button
+                                                    className="btn btn-outline-secondary btn-sm mt-2"
+                                                    onClick={() =>
+                                                        setOrders((prev) =>
+                                                            prev.map((o) =>
+                                                                o.id === order.id
+                                                                    ? { ...o, showQR: false }
+                                                                    : o
+                                                            )
+                                                        )
+                                                    }
+                                                >
+                                                    Fermer
+                                                </button>
+                                            </div>
+                                        </div>
+                                    )}
+                                </>
                             )}
 
                             {!user?.roles.includes("ROLE_ADMIN") && order.status === "USED" && (
@@ -124,6 +161,7 @@ const Booking = () => {
                                     💳 Payer
                                 </button>
                             )}
+
                         </div>
                     ))}
                 </div>
