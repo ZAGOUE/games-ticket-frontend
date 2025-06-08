@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 import api from "../services/api";
-import { QRCode } from "qrcode.react";
+import { QRCodeSVG } from "qrcode.react";
 
 
 const Booking = () => {
@@ -125,7 +125,7 @@ const Booking = () => {
                                     </button>
                                     {order.showQR && (
                                         <div style={{ textAlign: "center", marginTop: 20 }}>
-                                            <QRCode value={order.order_key || order.key || order.id.toString()} size={220} />
+                                            <QRCodeSVG value={order.order_key || order.key || order.id.toString()} size={220} />
                                             <div>
                                                 <button
                                                     className="btn btn-outline-secondary btn-sm mt-2"
