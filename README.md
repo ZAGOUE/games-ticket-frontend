@@ -9,7 +9,7 @@ Frontend de l’application de billetterie en ligne pour les Jeux Olympiques. Ce
 - Parcours administrateur : gestion des offres, réservations
 - Scan et vérification des billets (QR code) pour les contrôleurs
 - Interface responsive avec React.js
-- Notifications via **toasts** (feedback utilisateur non intrusif)
+
 
 ## Technologies utilisées
 
@@ -17,7 +17,6 @@ Frontend de l’application de billetterie en ligne pour les Jeux Olympiques. Ce
 - React Router DOM
 - Axios
 - Bootstrap
-- React Toastify (toasts de notification)
 - JWT pour l’authentification (avec le backend Symfony)
 
 ---
@@ -64,9 +63,6 @@ L'application sera disponible sur `http://localhost:3000`
 
 ---
 
-
-
----
 
 ## Déploiement continu (Netlify)
 
